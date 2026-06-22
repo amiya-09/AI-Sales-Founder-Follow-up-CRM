@@ -13,15 +13,18 @@ _Last updated: Day 2, cleaning up duplicate seed data_
 - [x] lib/db.ts — shared Postgres pool, connection verified
 - [x] scripts/test-llm.mjs — proved Groq call returns valid Signal-shaped JSON
 
-## Day 2 — Ingestion + Demo Seed 🔄 IN PROGRESS
+## Day 2 — Ingestion + Demo Seed ✅ DONE
 - [x] lib/ingestion.ts — reusable ingestMessage() function
 - [x] app/api/demo/seed/route.ts — seeds 3 leads (Jordan Lee/Acme, Priya Shah/Northwind, Sam Okafor/Globex)
-- [ ] Database cleaned of stray/duplicate data (see note below)
-- [ ] Seed re-run and verified clean (exactly 3 leads, correct statuses)
+- [x] Database cleaned of stray/duplicate data
+- [x] Seed re-run and verified clean (exactly 3 leads, correct statuses)
 
-## Day 3 — Agent Orchestration Layer ⬜ NOT STARTED
-- [ ] Summarization Agent — reads seeded inbound messages, writes to `signals`
-- [ ] Draft Generation Agent — chained after summarization, writes to `followup_drafts`
+## Day 3 — Agent Orchestration Layer 🔄 IN PROGRESS
+- [ ] lib/agents/summarize.ts — Summarization Agent
+- [ ] lib/agents/draft.ts — Draft Generation Agent
+- [ ] lib/agents/pipeline.ts — chains them, writes to signals + followup_drafts
+- [ ] Wired into lib/ingestion.ts so every inbound message auto-triggers the pipeline
+- [ ] Verified: seeded inbound replies produce real signals + drafts in the DB
 
 ## Day 4 — API Layer ⬜ NOT STARTED
 - [ ] GET /api/queue (+ priorityScore function)
