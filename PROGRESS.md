@@ -46,6 +46,16 @@ Dashboard → click critical lead → edit draft → approve & send → thread/b
 update live → back to queue → score correctly reflects resolved status. No agents, no
 scripts — manually walked through and confirmed by eye.
 
+## Real Pipeline — Step 1: Auth + Google OAuth ✅ DONE
+- [x] next-auth v5 (beta) configured with Google provider, gmail.readonly + gmail.send scopes
+- [x] Token refresh logic in jwt callback (handles Google's ~1hr access token expiry)
+- [x] middleware.ts → proxy.ts (Next.js 16 rename)
+- [x] Google Cloud OAuth client created, Testing mode, self as test user, redirect URI on port 3001
+- [x] Verified: visiting localhost:3001 redirects to real Google sign-in, consent screen
+      lists Gmail permissions, lands back on authenticated dashboard
+
+## Real Pipeline — Step 2: POST /api/sync 🔄 IN PROGRESS
+
 ## Stretch — POST /api/sync ⬜ DEFERRED
 - Not needed for the recorded demo — spec's /api/demo/seed exists specifically so the
   demo never depends on a live inbox
