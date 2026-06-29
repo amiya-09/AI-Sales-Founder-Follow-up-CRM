@@ -16,9 +16,17 @@ preamble — with exactly these fields:
   "signalTags": ["budget_mentioned", "objection", "timeline_mentioned", ...],
   "recommendedAction": "send_pricing" | "schedule_call" | "answer_question" | "no_action",
   "confidence": a number between 0 and 1
-}`;
+}
 
-export async function summarizeMessage(bodyText: string): Promise<SummarizeResult> {
+You may also be given earlier messages in the conversation as context. Use them to
+understand the full situation, but only summarize and tag the NEWEST message — don't
+re-summarize the whole thread.`;
+
+export async function summarizeMessage(bodyText: string, threadContext?: string): Promise<SummarizeResult> {
+  const userContent = threadContext
+    ? `Conversation so far (oldest to newest, for context only):\n${threadContext}\n\nNewest message to analyze:\n${bodyText}`
+    : bodyText;
+
   const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST",
     headers: {
@@ -30,7 +38,7 @@ export async function summarizeMessage(bodyText: string): Promise<SummarizeResul
       temperature: 0.2,
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
-        { role: "user", content: bodyText },
+        { role: "user", content: userContent },
       ],
     }),
   });

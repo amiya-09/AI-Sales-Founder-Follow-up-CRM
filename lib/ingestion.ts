@@ -47,8 +47,9 @@ export async function ingestMessage(params: IngestParams) {
   // 3. Update the lead's timestamps/status based on which direction this was
   if (direction === "inbound") {
     await pool.query(
-      `UPDATE leads SET last_reply_at = $1, status = 'replied'
-       WHERE id = $2 AND status NOT IN ('won', 'lost', 'cold')`,
+      `UPDATE leads SET last_reply_at = $1,
+       status = (CASE WHEN status IN ('won', 'lost', 'cold', 'reopened') THEN 'reopened' ELSE 'replied' END)::lead_status
+       WHERE id = $2`,
       [sentAt, lead.id]
     );
 

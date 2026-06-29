@@ -32,6 +32,7 @@ const STATUS_LABEL: Record<string, string> = {
   cold: "Cold",
   won: "Won",
   lost: "Lost",
+  reopened: "Reopened",
 };
 
 export default function LeadDetailPage() {

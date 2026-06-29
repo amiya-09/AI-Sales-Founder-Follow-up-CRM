@@ -48,20 +48,25 @@ export async function GET() {
       ? Math.round((Date.now() - new Date(row.last_reply_at).getTime()) / (1000 * 60 * 60))
       : null;
 
-    const { score, tier } =
-      row.status === "replied"
-        ? computePriorityScore(hoursSinceReply, row.signal_tags ?? [])
-        : { score: 0, tier: "low" as const };
+    const isActionable = row.status === "replied" || row.status === "reopened";
+    const { score, tier } = isActionable
+      ? computePriorityScore(hoursSinceReply, row.signal_tags ?? [])
+      : { score: 0, tier: "low" as const };
 
     return {
       leadId: row.lead_id,
       name: row.name,
       company: row.company,
+      status: row.status,
       priorityScore: score,
       urgencyTier: tier,
       hoursSinceReply,
       latestSignal: row.summary_text
-        ? { summaryText: row.summary_text, recommendedAction: row.recommended_action }
+        ? {
+            summaryText: row.summary_text,
+            recommendedAction: row.recommended_action,
+            signalTags: row.signal_tags ?? [],
+          }
         : null,
       draftPreview: row.draft_text ? row.draft_text.slice(0, 80) + "..." : null,
     };

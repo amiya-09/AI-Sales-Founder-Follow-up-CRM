@@ -94,7 +94,7 @@ export async function PATCH(
   }
   const { status } = body;
 
-  const validStatuses = ["new", "contacted", "replied", "follow_up_sent", "cold", "won", "lost"];
+  const validStatuses = ["new", "contacted", "replied", "follow_up_sent", "cold", "won", "lost", "reopened"];
   if (!status || !validStatuses.includes(status)) {
     return NextResponse.json({ error: "Invalid or missing status" }, { status: 400 });
   }

@@ -9,7 +9,7 @@ CREATE TABLE users (
 );
 
 CREATE TYPE lead_status AS ENUM (
-  'new', 'contacted', 'replied', 'follow_up_sent', 'cold', 'won', 'lost'
+  'new', 'contacted', 'replied', 'follow_up_sent', 'cold', 'won', 'lost', 'reopened'
 );
 
 CREATE TABLE leads (
